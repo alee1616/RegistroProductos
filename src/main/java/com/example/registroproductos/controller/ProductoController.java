@@ -60,11 +60,11 @@ public class ProductoController {
     }
 
     private void configureTable() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
-        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaRegistro"));
+        colId.setCellValueFactory(cellData -> new javafx.beans.property.ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+        colNombre.setCellValueFactory(cellData -> new javafx.beans.property.ReadOnlyObjectWrapper<>(cellData.getValue().getNombre()));
+        colCategoria.setCellValueFactory(cellData -> new javafx.beans.property.ReadOnlyObjectWrapper<>(cellData.getValue().getCategoria()));
+        colPrecio.setCellValueFactory(cellData -> new javafx.beans.property.ReadOnlyObjectWrapper<>(cellData.getValue().getPrecio()));
+        colFecha.setCellValueFactory(cellData -> new javafx.beans.property.ReadOnlyObjectWrapper<>(cellData.getValue().getFechaRegistro()));
 
         tblProductos.setItems(productos);
     }
