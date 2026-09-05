@@ -5,14 +5,12 @@ import com.example.registroproductos.repository.ProductoRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.time.LocalDate;
-import java.util.Locale;
 
 public class ProductoController {
 
@@ -53,20 +51,20 @@ public class ProductoController {
     private final ProductoRepository productoRepository = new ProductoRepository();
     private String selectedImagePath;
 
-
     @FXML
     public void initialize(){
         configureTable();
         configureDataPicker();
         loadInitialData();
+        configureTableSelection();
     }
 
     private void configureTable() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
-        colCategoria.setCellValueFactory(new PropertyValueFactory<>("Categoria"));
-        colPrecio.setCellValueFactory(new PropertyValueFactory<>("Precio"));
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("Fecha de registro"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaRegistro"));
 
         tblProductos.setItems(productos);
     }
@@ -104,7 +102,6 @@ public class ProductoController {
 
         Image image = new Image(imagePath, 180, 150, true, true);
         imgProducto.setImage(image);
-
     }
 
     private boolean validateForm() {
@@ -131,29 +128,27 @@ public class ProductoController {
         txtPrecio.clear();
         dtpFecha.setValue(LocalDate.now());
         selectedImagePath = null;
+        imgProducto.setImage(null);
         tblProductos.getSelectionModel().clearSelection();
         txtNombre.requestFocus();
     }
 
+    @FXML
     private void addProducto() {
         if (!validateForm()) {
             return;
-        }else {
-            Producto producto = new Producto(
-                    productos.size() + 1,
-                    txtNombre.getText().trim(), // trim: eliminar espacios de inicio y final de una cadena
-                    txtCategoria.getText().trim(),
-                    Double.parseDouble(txtPrecio.getText().trim()),
-                    dtpFecha.getValue(),
-                    selectedImagePath
-            );
         }
+
+        Producto producto = new Producto(
+                productos.size() + 1,
+                txtNombre.getText().trim(),
+                txtCategoria.getText().trim(),
+                Double.parseDouble(txtPrecio.getText().trim()),
+                dtpFecha.getValue(),
+                selectedImagePath
+        );
+
+        productos.add(producto);
+        clearForm();
     }
 }
-
-
-
-
-
-
-
